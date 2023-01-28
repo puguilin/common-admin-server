@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.guilin.mapper.SysConfigMapper">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO `sys_config`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">`id`,</if>
+      <if test="key != null">`key`,</if>
+      <if test="value != null">`value`,</if>
+      <if test="remark != null">`remark`,</if>
+      <if test="orderNum != null">`order_num`,</if>
+      <if test="createTime != null">`create_time`,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="key != null">#{key},</if>
+      <if test="value != null">#{value},</if>
+      <if test="remark != null">#{remark},</if>
+      <if test="orderNum != null">#{orderNum},</if>
+      <if test="createTime != null">#{createTime},</if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey">
+    DELETE FROM `sys_config`
+    WHERE `id` = #{id}
+  </delete>
+  <update id="updateByPrimaryKey">
+    UPDATE `sys_config`
+    <set>
+      <if test="id != null">`id` = #{id},</if>
+      <if test="key != null">`key` = #{key},</if>
+      <if test="value != null">`value` = #{value},</if>
+      <if test="remark != null">`remark` = #{remark},</if>
+      <if test="orderNum != null">`order_num` = #{orderNum},</if>
+      <if test="createTime != null">`create_time` = #{createTime},</if>
+    </set>
+    WHERE `id` = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultType="com.github.guilin.domain.entity.SysConfig">
+    SELECT `id`,`key`,`value`,`remark`,`order_num`,`create_time`
+    FROM `sys_config`
+    WHERE `id` = #{id}
+  </select>
+  <select id="selectList" resultType="com.github.guilin.domain.entity.SysConfig">
+    SELECT `id`,`key`,`value`,`remark`,`order_num`,`create_time`
+    FROM `sys_config`
+    <where>
+      <if test="id != null">AND `id` = #{id}</if>
+      <if test="orderNum != null">AND `order_num` > 0</if>
+      <if test="key != null">AND `key` LIKE CONCAT('%',#{key},'%')</if>
+      <if test="value != null">AND `value` LIKE CONCAT('%',#{value},'%')</if>
+      <if test="remark != null">AND `remark` LIKE CONCAT('%',#{remark},'%')</if>
+    </where>
+  </select>
+  <update id="updateValueByKey">
+    UPDATE `sys_config` SET `value` = #{value}
+    WHERE `key` = #{key}
+  </update>
+</mapper>

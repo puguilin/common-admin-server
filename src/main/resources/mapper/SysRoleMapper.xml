@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.guilin.mapper.SysRoleMapper">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO `sys_role`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">`id`,</if>
+      <if test="name != null">`name`,</if>
+      <if test="orderNum != null">`order_num`,</if>
+      <if test="createTime != null">`create_time`,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="name != null">#{name},</if>
+      <if test="orderNum != null">#{orderNum},</if>
+      <if test="createTime != null">#{createTime},</if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey">
+    DELETE FROM `sys_role`
+    WHERE `id` = #{id}
+  </delete>
+  <update id="updateByPrimaryKey">
+    UPDATE `sys_role`
+    <set>
+      <if test="id != null">`id` = #{id},</if>
+      <if test="name != null">`name` = #{name},</if>
+      <if test="orderNum != null">`order_num` = #{orderNum},</if>
+      <if test="createTime != null">`create_time` = #{createTime},</if>
+    </set>
+    WHERE `id` = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultType="com.github.guilin.domain.entity.SysRole">
+    SELECT `id`,`name`,`order_num`,`create_time`
+    FROM `sys_role`
+    WHERE `id` = #{id}
+  </select>
+  <select id="selectList" resultType="com.github.guilin.domain.entity.SysRole">
+    SELECT `id`,`name`,`order_num`,`create_time`
+    FROM `sys_role`
+    <where>
+      <if test="id != null">AND `id` = #{id}</if>
+      <if test="orderNum != null">AND `order_num` = #{orderNum}</if>
+      <if test="name != null">AND `name` LIKE CONCAT('%',#{name},'%')</if>
+    </where>
+    ORDER BY `order_num` ASC
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM `sys_role`
+  </select>
+
+  <!-- sys_role_menu -->
+  <select id="selectChecks" resultType="java.lang.Long">
+    SELECT `mid` FROM `sys_role_menu`
+    WHERE `rid` = #{id}
+  </select>
+  <select id="selectByMenuIds" resultType="java.lang.Long">
+    SELECT `rid` FROM `sys_role_menu`
+    WHERE `mid` IN
+    <foreach collection="mids" item="item" open="(" close=")" index="index" separator=",">
+      #{item}
+    </foreach>
+  </select>
+  <delete id="deleteSysRoleMenuByRid">
+    DELETE FROM `sys_role_menu`
+    WHERE `rid` = #{rid}
+  </delete>
+  <insert id="insertSysRoleMenu">
+    INSERT INTO `sys_role_menu` (`rid`, `mid`) VALUES
+    <foreach collection="mids" item="item" index="index" separator=",">
+      (#{rid},#{item})
+    </foreach>
+  </insert>
+</mapper>

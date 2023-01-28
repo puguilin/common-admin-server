@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.guilin.mapper.SysLogMapper">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO `sys_log`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">`id`,</if>
+      <if test="type != null">`type`,</if>
+      <if test="title != null">`title`,</if>
+      <if test="mapping != null">`mapping`,</if>
+      <if test="mode != null">`mode`,</if>
+      <if test="method != null">`method`,</if>
+      <if test="params != null">`params`,</if>
+      <if test="result != null">`result`,</if>
+      <if test="exception != null">`exception`,</if>
+      <if test="startTime != null">`start_time`,</if>
+      <if test="endTime != null">`end_time`,</if>
+      <if test="remoteIp != null">`remote_ip`,</if>
+      <if test="remoteRegion != null">`remote_region`,</if>
+      <if test="createBy != null">`create_by`,</if>
+      <if test="createTime != null">`create_time`,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="type != null">#{type},</if>
+      <if test="title != null">#{title},</if>
+      <if test="mapping != null">#{mapping},</if>
+      <if test="mode != null">#{mode},</if>
+      <if test="method != null">#{method},</if>
+      <if test="params != null">#{params},</if>
+      <if test="result != null">#{result},</if>
+      <if test="exception != null">#{exception},</if>
+      <if test="startTime != null">#{startTime},</if>
+      <if test="endTime != null">#{endTime},</if>
+      <if test="remoteIp != null">#{remoteIp},</if>
+      <if test="remoteRegion != null">#{remoteRegion},</if>
+      <if test="createBy != null">#{createBy},</if>
+      <if test="createTime != null">#{createTime},</if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey">
+    DELETE FROM `sys_log`
+    WHERE `id` = #{id}
+  </delete>
+  <update id="updateByPrimaryKey">
+    UPDATE `sys_log`
+    <set>
+      <if test="id != null">`id` = #{id},</if>
+      <if test="type != null">`type` = #{type},</if>
+      <if test="title != null">`title` = #{title},</if>
+      <if test="mapping != null">`mapping` = #{mapping},</if>
+      <if test="mode != null">`mode` = #{mode},</if>
+      <if test="method != null">`method` = #{method},</if>
+      <if test="params != null">`params` = #{params},</if>
+      <if test="result != null">`result` = #{result},</if>
+      <if test="exception != null">`exception` = #{exception},</if>
+      <if test="startTime != null">`start_time` = #{startTime},</if>
+      <if test="endTime != null">`end_time` = #{endTime},</if>
+      <if test="remoteIp != null">`remote_ip` = #{remoteIp},</if>
+      <if test="remoteRegion != null">`remote_region` = #{remoteRegion},</if>
+      <if test="createBy != null">`create_by` = #{createBy},</if>
+      <if test="createTime != null">`create_time` = #{createTime},</if>
+    </set>
+    WHERE `id` = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultType="com.github.guilin.domain.entity.SysLog">
+    SELECT `id`,`type`,`title`,`mapping`,`mode`,`method`,`params`,`result`,`exception`,`start_time`,`end_time`,`remote_ip`,`remote_region`,`create_by`,`create_time`
+    FROM `sys_log`
+    WHERE `id` = #{id}
+  </select>
+  <select id="selectList" resultType="com.github.guilin.domain.entity.SysLog">
+    SELECT `id`,`type`,`title`,`mapping`,`mode`,`method`,`params`,`result`,`exception`,`start_time`,`end_time`,`remote_ip`,`remote_region`,`create_by`,`create_time`
+    FROM `sys_log`
+    <where>
+      <if test="id != null">AND `id` = #{id}</if>
+      <if test="createBy != null">AND `create_by` = #{createBy}</if>
+      <if test="type != null">AND `type` = #{type}</if>
+      <if test="title != null">AND `title` LIKE CONCAT('%',#{title},'%')</if>
+      <if test="mapping != null">AND `mapping` LIKE CONCAT('%',#{mapping},'%')</if>
+      <if test="mode != null">AND `mode` LIKE CONCAT('%',#{mode},'%')</if>
+      <if test="method != null">AND `method` LIKE CONCAT('%',#{method},'%')</if>
+      <if test="params != null">AND `params` LIKE CONCAT('%',#{params},'%')</if>
+      <if test="result != null">AND `result` LIKE CONCAT('%',#{result},'%')</if>
+      <if test="exception != null">AND `exception` LIKE CONCAT('%',#{exception},'%')</if>
+      <if test="remoteIp != null">AND `remote_ip` LIKE CONCAT('%',#{remoteIp},'%')</if>
+      <if test="remoteRegion != null">AND `remote_region` LIKE CONCAT('%',#{remoteRegion},'%')</if>
+    </where>
+    ORDER BY `create_time` DESC
+  </select>
+  <delete id="clear">
+    DELETE FROM `sys_log`
+  </delete>
+</mapper>

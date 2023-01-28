@@ -1,0 +1,41 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: common-admin
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/common-admin?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    timeout: 10000
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 20MB
+  mvc:
+    servlet:
+      load-on-startup: 1
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/**/*.xml
+logging:
+  level:
+    org.mybatis: INFO
+    io.github.caochenlei: INFO
+    org.springframework.boot.autoconfigure: INFO
+#自定义配置信息
+token:
+  expire: 7200
+  unit: second
+sysLogRecord:
+  enable: true #是否开启系统日志记录
+  params: true #是否开启请求参数保存
+  result: true #是否开启请求结果保存

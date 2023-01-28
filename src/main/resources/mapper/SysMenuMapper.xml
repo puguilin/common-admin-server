@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.guilin.mapper.SysMenuMapper">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO `sys_menu`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">`id`,</if>
+      <if test="name != null">`name`,</if>
+      <if test="code != null">`code`,</if>
+      <if test="type != null">`type`,</if>
+      <if test="icon != null">`icon`,</if>
+      <if test="path != null">`path`,</if>
+      <if test="component != null">`component`,</if>
+      <if test="hidden != null">`hidden`,</if>
+      <if test="parentId != null">`parent_id`,</if>
+      <if test="orderNum != null">`order_num`,</if>
+      <if test="createTime != null">`create_time`,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="name != null">#{name},</if>
+      <if test="code != null">#{code},</if>
+      <if test="type != null">#{type},</if>
+      <if test="icon != null">#{icon},</if>
+      <if test="path != null">#{path},</if>
+      <if test="component != null">#{component},</if>
+      <if test="hidden != null">#{hidden},</if>
+      <if test="parentId != null">#{parentId},</if>
+      <if test="orderNum != null">#{orderNum},</if>
+      <if test="createTime != null">#{createTime},</if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey">
+    DELETE FROM `sys_menu`
+    WHERE `id` = #{id}
+  </delete>
+  <update id="updateByPrimaryKey">
+    UPDATE `sys_menu`
+    <set>
+      <if test="id != null">`id` = #{id},</if>
+      <if test="name != null">`name` = #{name},</if>
+      <if test="code != null">`code` = #{code},</if>
+      <if test="type != null">`type` = #{type},</if>
+      <if test="icon != null">`icon` = #{icon},</if>
+      <if test="path != null">`path` = #{path},</if>
+      <if test="component != null">`component` = #{component},</if>
+      <if test="hidden != null">`hidden` = #{hidden},</if>
+      <if test="parentId != null">`parent_id` = #{parentId},</if>
+      <if test="orderNum != null">`order_num` = #{orderNum},</if>
+      <if test="createTime != null">`create_time` = #{createTime},</if>
+    </set>
+    WHERE `id` = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultType="com.github.guilin.domain.entity.SysMenu">
+    SELECT `id`,`name`,`code`,`type`,`icon`,`path`,`component`,`hidden`,`parent_id`,`order_num`,`create_time`
+    FROM `sys_menu`
+    WHERE `id` = #{id}
+  </select>
+  <select id="selectList" resultType="com.github.guilin.domain.entity.SysMenu">
+    SELECT `id`,`name`,`code`,`type`,`icon`,`path`,`component`,`hidden`,`parent_id`,`order_num`,`create_time`
+    FROM `sys_menu`
+    <where>
+      <if test="id != null">AND `id` = #{id}</if>
+      <if test="parentId != null">AND `parent_id` = #{parentId}</if>
+      <if test="type != null">AND `type` = #{type}</if>
+      <if test="orderNum != null">AND `order_num` = #{orderNum}</if>
+      <if test="hidden != null">AND `hidden` = #{hidden}</if>
+      <if test="name != null">AND `name` LIKE CONCAT('%',#{name},'%')</if>
+      <if test="code != null">AND `code` LIKE CONCAT('%',#{code},'%')</if>
+      <if test="icon != null">AND `icon` LIKE CONCAT('%',#{icon},'%')</if>
+      <if test="path != null">AND `path` LIKE CONCAT('%',#{path},'%')</if>
+      <if test="component != null">AND `component` LIKE CONCAT('%',#{component},'%')</if>
+    </where>
+    ORDER BY `order_num` ASC
+  </select>
+  <select id="selectMenuListBySysUserId" resultType="com.github.guilin.domain.entity.SysMenu">
+    SELECT DISTINCT sm.`id`,sm.`name`,sm.`code`,sm.`type`,sm.`icon`,sm.`path`,sm.`component`,sm.`hidden`,sm.`parent_id`,sm.`order_num`,sm.`create_time`
+    FROM `sys_user` AS su
+           RIGHT JOIN `sys_user_role` AS sur ON sur.`uid` = su.`id`
+           RIGHT JOIN `sys_role_menu` AS srm ON srm.`rid` = sur.`rid`
+           RIGHT JOIN `sys_menu` AS sm ON sm.`id` = srm.`mid`
+    WHERE su.`id` = #{sysUserId}
+  </select>
+  <select id="selectParent" resultType="com.github.guilin.domain.entity.SysMenu">
+    SELECT `id`,`name`,`code`,`type`,`icon`,`path`,`component`,`hidden`,`parent_id`,`order_num`,`create_time`
+    FROM `sys_menu`
+    WHERE `type` IN
+    <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+  </select>
+</mapper>
